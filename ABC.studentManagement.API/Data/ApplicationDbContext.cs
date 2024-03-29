@@ -1,4 +1,5 @@
 ﻿using ABC.studentManagement.API.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace ABC.studentManagement.API.Data
@@ -17,19 +18,19 @@ namespace ABC.studentManagement.API.Data
             modelBuilder.Entity<StaffMember>().HasData(
                 new StaffMember
                 {
-                    Id = 1,
+                    Id = Guid.NewGuid(),
                     FullName = "Admin 1",
-                    Department = "Administration",
                     Email = "admin1@example.com",
-                    Phone = "1234567890"
+                    Phone = "1234567890",
+                    Password = new PasswordHasher<StaffMember>().HashPassword(null, "admin1password")
                 },
                 new StaffMember
                 {
-                    Id = 2,
+                    Id = Guid.NewGuid(),
                     FullName = "Admin 2",
-                    Department = "Administration",
                     Email = "admin2@example.com",
-                    Phone = "0987654321"
+                    Phone = "0987654321",
+                    Password = new PasswordHasher<StaffMember>().HashPassword(null, "admin2password")
                 }
             );
         }
