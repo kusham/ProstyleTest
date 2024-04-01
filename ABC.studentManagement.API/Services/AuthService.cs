@@ -1,6 +1,7 @@
 ﻿using ABC.studentManagement.API.IRepositories;
 using ABC.studentManagement.API.IServices;
 using ABC.studentManagement.API.Models;
+using ABC.studentManagement.API.Utils;
 using Microsoft.AspNetCore.Identity;
 using Org.BouncyCastle.Asn1.Ocsp;
 using System.Net;
@@ -11,26 +12,40 @@ namespace ABC.studentManagement.API.Services
     {
         private readonly IAuthRepository _authRepository;
         private readonly IPasswordHasher<StaffMember> _passwordHasher;
+        private readonly JWT _jwt;
 
-        public AuthService(IAuthRepository authRepository, IPasswordHasher<StaffMember> passwordHasher) 
+        public AuthService(IAuthRepository authRepository, IPasswordHasher<StaffMember> passwordHasher, JWT jwt) 
         {
             this._authRepository = authRepository;
             this._passwordHasher = passwordHasher;
+            this._jwt = jwt;
         }
-        public async Task<string?> SignIn(LoginUser credintials)
+        public async Task<LoggedUser?> SignIn(LoginUser credintials)
         {
             StaffMember? staffMember = await _authRepository.GetStaffMemberByEmail(credintials.Email);
+
+            if (staffMember is not null)
+            {
             PasswordVerificationResult result = _passwordHasher.VerifyHashedPassword(
                 staffMember, staffMember.Password, credintials.Password);
-
-            if (staffMember is not null && result == PasswordVerificationResult.Success)
-            {
-                // Generate and return authentication token
-                return "your-authentication-token";
+                if(result == PasswordVerificationResult.Success)
+                {
+                    var token = _jwt.GenerateToken(staffMember);
+                    var loggedUser = new LoggedUser
+                    {
+                        Id = staffMember.Id,
+                        FullName = staffMember.FullName,
+                        Email = staffMember.Email,
+                        Phone = staffMember.Phone,
+                        token = token
+                    };
+                    return loggedUser;
+                }
             }
-
             return null; // Authentication failed
         }
+
+
 
         public async Task SignUp(StaffMember staffMember)
         {

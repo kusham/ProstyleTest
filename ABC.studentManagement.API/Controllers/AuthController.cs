@@ -39,11 +39,11 @@ namespace ABC.studentManagement.API.Controllers
                 {
                     return BadRequest("Username or password cannot be empty.");
                 }
-                var token = await _authService.SignIn(credintials);
-                if (token is null)
+                var user = await _authService.SignIn(credintials);
+                if (user is null)
                     return Unauthorized("Invalid email or password.");
 
-                return Ok(new { Token = token });
+                return Ok(user);
             }
             catch (Exception ex)
             {
