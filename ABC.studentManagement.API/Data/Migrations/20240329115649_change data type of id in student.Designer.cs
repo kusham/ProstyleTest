@@ -3,6 +3,7 @@ using System;
 using ABC.studentManagement.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ABC.studentManagement.API.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240329115649_change data type of id in student")]
+    partial class changedatatypeofidinstudent
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,19 +24,18 @@ namespace ABC.studentManagement.API.Data.Migrations
 
             modelBuilder.Entity("ABC.studentManagement.API.Models.StaffMember", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("int");
+
+                    b.Property<string>("Department")
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("FullName")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -48,18 +50,18 @@ namespace ABC.studentManagement.API.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("8e05f1e3-5896-417d-9a14-2ba6018785eb"),
+                            Id = 1,
+                            Department = "Administration",
                             Email = "admin1@example.com",
                             FullName = "Admin 1",
-                            Password = "AQAAAAIAAYagAAAAEKfFLo+U54DPUUQhkTT/WNz4wMEX6iB/qrXfR1XkATpbmBF3coKJ6QY/WzbGFThBTg==",
                             Phone = "1234567890"
                         },
                         new
                         {
-                            Id = new Guid("a6e5ea67-0a7b-4bbc-9580-1f3aa52ce149"),
+                            Id = 2,
+                            Department = "Administration",
                             Email = "admin2@example.com",
                             FullName = "Admin 2",
-                            Password = "AQAAAAIAAYagAAAAELKOrh+u+GnDLhgIr6sHphInDnfhN8PWkbzeux2xpz8YcWuqxsf//WbP/WzN63yiSg==",
                             Phone = "0987654321"
                         });
                 });
@@ -85,18 +87,12 @@ namespace ABC.studentManagement.API.Data.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Gender")
-                        .HasColumnType("longtext");
-
                     b.Property<string>("IndexNumber")
                         .IsRequired()
                         .HasMaxLength(7)
                         .HasColumnType("varchar(7)");
 
                     b.Property<string>("Phone")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Title")
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");

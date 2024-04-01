@@ -3,6 +3,7 @@ using System;
 using ABC.studentManagement.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ABC.studentManagement.API.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240329191546_add new properties to Staffmember")]
+    partial class addnewpropertiestoStaffmember
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,18 +51,18 @@ namespace ABC.studentManagement.API.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("8e05f1e3-5896-417d-9a14-2ba6018785eb"),
+                            Id = new Guid("a3270d2b-1191-46e2-b7e9-46952a205ef2"),
                             Email = "admin1@example.com",
                             FullName = "Admin 1",
-                            Password = "AQAAAAIAAYagAAAAEKfFLo+U54DPUUQhkTT/WNz4wMEX6iB/qrXfR1XkATpbmBF3coKJ6QY/WzbGFThBTg==",
+                            Password = "admin1password",
                             Phone = "1234567890"
                         },
                         new
                         {
-                            Id = new Guid("a6e5ea67-0a7b-4bbc-9580-1f3aa52ce149"),
+                            Id = new Guid("32b7e72c-a588-476a-92e5-48662d11e280"),
                             Email = "admin2@example.com",
                             FullName = "Admin 2",
-                            Password = "AQAAAAIAAYagAAAAELKOrh+u+GnDLhgIr6sHphInDnfhN8PWkbzeux2xpz8YcWuqxsf//WbP/WzN63yiSg==",
+                            Password = "admin1password",
                             Phone = "0987654321"
                         });
                 });
